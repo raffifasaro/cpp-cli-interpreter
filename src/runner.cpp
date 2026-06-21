@@ -1,6 +1,7 @@
 #include "runner.h"
+#include "parse_math.h"
+
 #include <iostream>
-#include <string>
 
 void runInterpreter() {
     std::cout << "Interpreter running\n";
@@ -15,8 +16,13 @@ void runInterpreter() {
             break;
         }
 
-        std::cout << "test " << input;
+        std::cout << interpret(input);
 
         std::cout << "\n";
     }
+}
+
+std::string interpret(std::string argument) {
+
+    return parse_math(argument);
 }
