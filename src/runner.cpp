@@ -3,16 +3,19 @@
 
 #include <iostream>
 
-void runInterpreter() {
+void run_interpreter() 
+{
     std::cout << "Interpreter running\n";
 
     std::string input;
 
-    while(true) {
+    while(true) 
+    {
 
         std::cout << ">>> ";
 
-        if(!std::getline(std::cin, input) || input == "exit") {
+        if(!std::getline(std::cin, input) || input == "exit") 
+        {
             break;
         }
 
@@ -22,7 +25,7 @@ void runInterpreter() {
     }
 }
 
-std::string interpret(std::string argument) {
-
+std::string interpret(std::string argument) 
+{
     return parse_math(argument);
 }

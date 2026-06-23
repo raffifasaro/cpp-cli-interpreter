@@ -2,6 +2,6 @@
 
 #include <string>
 
-void runInterpreter();
+void run_interpreter();
 
 std::string interpret(std::string argument);

@@ -1,6 +1,7 @@
 #include "runner.h"
 
-int main() {
-    runInterpreter();
+int main() 
+{
+    run_interpreter();
     return 0;
 }
