@@ -1,5 +1,6 @@
 #include "runner.h"
 #include "parse_math.h"
+#include "lexer.h"
 
 #include <iostream>
 
