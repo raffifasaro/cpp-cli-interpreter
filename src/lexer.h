@@ -1,20 +1,25 @@
 #pragma once
 
 #include <string>
+#include <string_view>
 #include <vector>
 
-enum Token_cat {
-    BRACKET,
-    OPERATOR,
-    VAR,
-    NUMBER,
-    CHAR,
-    TYPE
-};
+namespace token {
 
-struct token {
-    Token_cat category;
-    char token_char;
-};
+    enum Category {
+        BRACKET,
+        OPERATOR,
+        VAR,
+        NUMBER,
+        CHAR,
+        TYPE
+    };
 
-std::vector<token> tokenize_input(std::string input);
+    struct Token {
+        Category category;
+        std::string_view inner;
+    };
+
+    std::vector<Token> tokenize(std::string input);
+
+}
