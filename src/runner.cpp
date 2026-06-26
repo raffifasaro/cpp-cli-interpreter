@@ -20,7 +20,15 @@ void run_interpreter()
             break;
         }
 
-        std::cout << interpret(input);
+        std::cout << interpret(input) << "\n";
+
+        std::cout << "Token vector:" << "\n";
+
+        std::vector<token::Token> tokens = token::tokenize(input);
+
+        for (const token::Token& token : tokens) {
+            std::cout << token.inner << "\n";
+        }
 
         std::cout << "\n";
     }
