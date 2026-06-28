@@ -1,5 +1,8 @@
 #pragma once
 
-#include <string>
+#include "../src/lexer.h"
 
-std::string parse_math(std::string argument);
+#include <string>
+#include <vector>
+
+std::string parse_math(std::vector<token::Token> token_input);
