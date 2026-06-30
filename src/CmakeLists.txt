@@ -1,3 +1,3 @@
-add_executable(interpreter main.cpp runner.cpp lexer.cpp)
+add_executable(interpreter main.cpp runner.cpp lexer.cpp parser.cpp evaluator.cpp)
 
-target_link_libraries(interpreter PRIVATE modules)
+target_link_libraries(interpreter PRIVATE math)

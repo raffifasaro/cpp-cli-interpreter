@@ -1,6 +1,7 @@
 #include "runner.h"
-#include "parse_math.h"
 #include "lexer.h"
+#include "parser.h"
+#include "evaluator.h"
 
 #include <iostream>
 
@@ -27,6 +28,9 @@ void run_interpreter()
 
 std::string interpret(std::string argument) 
 {
-    std::vector<token::Token> tokens = token::tokenize(argument);
-    return parse_math(tokens);
+    std::vector<token::Token> tokens = lexer::tokenize(argument);
+    parser::treeNode ast_root = parse_math::build_tree(tokens);
+    std::string evaluated = evaluator::evaluate(ast_root);
+
+    return evaluated;
 }

@@ -23,11 +23,12 @@ bool is_operator(char c)
     return c == '+' || c == '-' || c == '*' || c == '/' || c == '=' || c == '%';
 }
 
-namespace token {
+namespace lexer 
+{
 
-    std::vector<Token> tokenize(const std::string& input)
+    std::vector<token::Token> tokenize(const std::string& input)
     {
-        std::vector<Token> tokens;
+        std::vector<token::Token> tokens;
 
         for (size_t i = 0; i < input.size(); i++)
         {

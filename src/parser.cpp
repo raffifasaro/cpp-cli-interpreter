@@ -1,26 +1,13 @@
-#include "parse_math.h"
+#include "parser.h"
 
 #include <iostream>
 
-namespace parse_math
+namespace parse_math 
 {
 
-    struct treeNode
+    parser::treeNode build_tree(std::vector<token::Token> token_input)
     {
-        std::string element;
-
-        std::unique_ptr<treeNode> left;
-        std::unique_ptr<treeNode> right;
-    };
-
-    std::string parse_math(std::vector<token::Token> token_input) 
-    {
-        return "";
-    }
-
-    parse_math::treeNode build_tree(std::vector<token::Token> token_input)
-    {
-        parse_math::treeNode root;
+        parser::treeNode root;
 
         if (token_input.front().inner == "(" && token_input.back().inner == ")")
         {
@@ -61,8 +48,8 @@ namespace parse_math
             if (scope == 0 && (current.inner == "+" || current.inner == "-"))
             {
                 root.element = current.inner;
-                root.left = std::make_unique<parse_math::treeNode>(parse_math::build_tree({token_input.begin(), token_input.begin() + i}));
-                root.right = std::make_unique<parse_math::treeNode>(parse_math::build_tree({token_input.begin() + i + 1, token_input.end()}));
+                root.left = std::make_unique<parser::treeNode>(parse_math::build_tree({token_input.begin(), token_input.begin() + i}));
+                root.right = std::make_unique<parser::treeNode>(parse_math::build_tree({token_input.begin() + i + 1, token_input.end()}));
                 return root;
             }
         }
@@ -78,8 +65,8 @@ namespace parse_math
             if (scope == 0 && (current.inner == "*" || current.inner == "/" || current.inner == "%"))
             {
                 root.element = current.inner;
-                root.left = std::make_unique<parse_math::treeNode>(parse_math::build_tree({token_input.begin(), token_input.begin() + i}));
-                root.right = std::make_unique<parse_math::treeNode>(parse_math::build_tree({token_input.begin() + i + 1, token_input.end()}));
+                root.left = std::make_unique<parser::treeNode>(parse_math::build_tree({token_input.begin(), token_input.begin() + i}));
+                root.right = std::make_unique<parser::treeNode>(parse_math::build_tree({token_input.begin() + i + 1, token_input.end()}));
                 return root;
             }
         }

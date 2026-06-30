@@ -1,3 +1,0 @@
-add_library(modules parse_math.cpp)
-
-target_include_directories(modules PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
