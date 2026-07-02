@@ -12,4 +12,5 @@ This is a pure learning project, no AI, not too much internet help, mostly just 
 First goal is to be able to eval simple math expressions with support for parentheses
 - Lexer working with rough token categories
 - Math parser working for fully‑parenthesized or operator‑separated positive expressions with no leading/trailing operators
+- Math evaluator working for all operators supported by parser for now
 
