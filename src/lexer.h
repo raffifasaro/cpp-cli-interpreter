@@ -8,7 +8,8 @@
 bool is_digit(char c);
 bool is_letter(char c);
 bool is_operator(char c);
-bool is_bracket(char c);
+bool is_right_bracket(char c);
+bool is_left_bracket(char c);
 
 namespace lexer 
 {

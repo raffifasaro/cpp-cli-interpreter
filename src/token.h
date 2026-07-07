@@ -7,7 +7,8 @@ namespace token
 
     enum Category 
     {
-        BRACKET,
+        R_BRACKET,
+        L_BRACKET,
         OPERATOR,
         NUMBER,
         IDENTIFIER

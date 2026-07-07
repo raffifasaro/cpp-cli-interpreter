@@ -13,9 +13,14 @@ bool is_digit(char c)
     return (c >= '0' && c <= '9');
 }
 
-bool is_bracket(char c)
+bool is_right_bracket(char c)
 {
-    return c == '(' || c == ')' || c == '{' || c == '}' || c == '[' || c == ']';
+    return c == ')' || c == '}' || c == ']';
+}
+
+bool is_left_bracket(char c)
+{
+    return c == '(' || c == '{' || c == '[';
 }
 
 bool is_operator(char c)
@@ -35,9 +40,15 @@ namespace lexer
             char current_char = input.at(i);
             token::Token token;
 
-            if (is_bracket(current_char))
+            if (is_right_bracket(current_char))
             {
-                token.category = token::BRACKET;
+                token.category = token::R_BRACKET;
+                token.inner = std::string_view(input.data() + i, 1);
+                tokens.push_back(token);
+            } 
+            else if (is_left_bracket(current_char))
+            {
+                token.category = token::L_BRACKET;
                 token.inner = std::string_view(input.data() + i, 1);
                 tokens.push_back(token);
             } 

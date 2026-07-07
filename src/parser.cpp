@@ -18,8 +18,8 @@ namespace parse_math
 
             for (auto &&token : b_removed)
             {
-                if (token.inner == "(") b_scope++;
-                if (token.inner == ")") b_scope--;
+                if (token.category == token::L_BRACKET) b_scope++;
+                if (token.category == token::R_BRACKET) b_scope--;
 
                 if (b_scope < 0) 
                 { 
@@ -41,9 +41,9 @@ namespace parse_math
         {
             token::Token current = token_input.at(i);
 
-            if (current.inner == "(") scope++;
+            if (current.category == token::L_BRACKET) scope++;
             
-            if (current.inner == ")") scope--;
+            if (current.category == token::R_BRACKET) scope--;
 
             if (scope == 0 && (current.inner == "+" || current.inner == "-"))
             {
@@ -58,9 +58,9 @@ namespace parse_math
         {
             token::Token current = token_input.at(i);
 
-            if (current.inner == "(") scope++;
+            if (current.category == token::L_BRACKET) scope++;
             
-            if (current.inner == ")") scope--;
+            if (current.category == token::R_BRACKET) scope--;
             
             if (scope == 0 && (current.inner == "*" || current.inner == "/" || current.inner == "%"))
             {
