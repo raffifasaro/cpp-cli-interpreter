@@ -33,10 +33,13 @@ std::string interpret(std::string argument)
 
     std::string evaluated{};
 
-    for (auto &&root : ast_roots)
+    for (size_t i = 0; i < ast_roots.size(); i++)
     {
-        evaluated.append(evaluator::evaluate(root));
-        evaluated.append("\n");
+        evaluated.append(evaluator::evaluate(ast_roots.at(i)));
+        if (i < ast_roots.size() - 1)
+        {
+            evaluated.append("\n");
+        }
     }
 
     return evaluated;
