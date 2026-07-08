@@ -28,6 +28,11 @@ bool is_operator(char c)
     return c == '+' || c == '-' || c == '*' || c == '/' || c == '=' || c == '%';
 }
 
+bool is_semicolon(char c)
+{
+    return c == ';';
+}
+
 void add_single_token(std::vector<token::Token>& tokens, const std::string& input, token::Category category, size_t start, int length) 
 {
     token::Token token;
@@ -59,6 +64,10 @@ namespace lexer
             else if (is_operator(current_char))
             {
                 add_single_token(tokens, input, token::OPERATOR, i, 1);
+            }
+            else if (is_semicolon(current_char))
+            {
+                add_single_token(tokens, input, token::SEMICOLON, i, 1);
             }
             else if (is_digit(current_char))
             {

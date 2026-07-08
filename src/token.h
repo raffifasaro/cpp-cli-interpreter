@@ -11,10 +11,10 @@ namespace token
         L_BRACKET,
         OPERATOR,
         NUMBER,
-        IDENTIFIER
+        IDENTIFIER,
+        SEMICOLON
         // Support later
         // TYPE
-        // SEMICOLON
         // LITERALS
     };
 

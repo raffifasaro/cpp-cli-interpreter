@@ -29,8 +29,15 @@ void run_interpreter()
 std::string interpret(std::string argument) 
 {
     std::vector<token::Token> tokens = lexer::tokenize(argument);
-    parser::treeNode ast_root = parse_math::build_tree(tokens);
-    std::string evaluated = evaluator::evaluate(ast_root);
+    std::vector<parser::treeNode> ast_roots = parser::parse(tokens);
+
+    std::string evaluated{};
+
+    for (auto &&root : ast_roots)
+    {
+        evaluated.append(evaluator::evaluate(root));
+        evaluated.append("\n");
+    }
 
     return evaluated;
 }

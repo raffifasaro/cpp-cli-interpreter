@@ -2,9 +2,36 @@
 
 #include <iostream>
 
+namespace parser 
+{
+    std::vector<parser::treeNode> parse(std::vector<token::Token> token_input)
+    {
+        std::vector<parser::treeNode> trees{};
+
+        std::vector<token::Token> sub_tokens{};
+
+        for (size_t i = 0; i < token_input.size(); i++)
+        {
+            sub_tokens.push_back(token_input.at(i));
+
+            if (token_input.at(i).category == token::SEMICOLON)
+            {
+                sub_tokens.pop_back();
+                trees.push_back(parse_math::build_tree(sub_tokens));
+                sub_tokens.clear();
+            }
+            else if (i == token_input.size() - 1)
+            {
+                trees.push_back(parse_math::build_tree(sub_tokens));
+                sub_tokens.clear();
+            }
+        }
+        return trees;
+    }
+}
+
 namespace parse_math 
 {
-
     parser::treeNode build_tree(std::vector<token::Token> token_input)
     {
         parser::treeNode root;
