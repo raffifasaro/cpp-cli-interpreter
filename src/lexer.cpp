@@ -28,6 +28,14 @@ bool is_operator(char c)
     return c == '+' || c == '-' || c == '*' || c == '/' || c == '=' || c == '%';
 }
 
+void add_single_token(std::vector<token::Token>& tokens, const std::string& input, token::Category category, size_t start, int length) 
+{
+    token::Token token;
+    token.category = category;
+    token.inner = std::string_view(input.data() + start, length);
+    tokens.push_back(token);
+}
+
 namespace lexer 
 {
 
@@ -42,16 +50,16 @@ namespace lexer
 
             if (is_right_bracket(current_char))
             {
-                token.category = token::R_BRACKET;
-                token.inner = std::string_view(input.data() + i, 1);
-                tokens.push_back(token);
+                add_single_token(tokens, input, token::R_BRACKET, i, 1);
             } 
             else if (is_left_bracket(current_char))
             {
-                token.category = token::L_BRACKET;
-                token.inner = std::string_view(input.data() + i, 1);
-                tokens.push_back(token);
-            } 
+                add_single_token(tokens, input, token::L_BRACKET, i, 1);
+            }
+            else if (is_operator(current_char))
+            {
+                add_single_token(tokens, input, token::OPERATOR, i, 1);
+            }
             else if (is_digit(current_char))
             {
                 size_t start = i;
@@ -61,9 +69,7 @@ namespace lexer
                     ++i;
                 }
 
-                token.category = token::NUMBER;
-                token.inner = std::string_view(input.data() + start, i - start);
-                tokens.push_back(token);
+                add_single_token(tokens, input, token::NUMBER, start, i - start);
 
                 --i;
             }
@@ -76,17 +82,9 @@ namespace lexer
                     ++i;
                 }
 
-                token.category = token::IDENTIFIER;
-                token.inner = std::string_view(input.data() + start, i - start);
-                tokens.push_back(token);
+                add_single_token(tokens, input, token::IDENTIFIER, start, i - start);
 
                 --i;
-            }
-            else if (is_operator(current_char))
-            {
-                token.category = token::OPERATOR;
-                token.inner = std::string_view(input.data() + i, 1);
-                tokens.push_back(token);
             }
         }
         return tokens;
