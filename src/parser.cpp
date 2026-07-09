@@ -36,7 +36,7 @@ namespace parse_math
     {
         parser::treeNode root;
 
-        if (token_input.front().inner == "(" && token_input.back().inner == ")")
+        if (token_input.front().category == token::L_BRACKET && token_input.back().category == token::R_BRACKET)
         {
             int b_scope = 0;
             bool wraps = true;
