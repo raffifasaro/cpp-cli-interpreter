@@ -30,6 +30,19 @@ namespace parser
     }
 }
 
+void build_node(parser::treeNode& root, std::string_view root_element, std::vector<token::Token>& token_input, int pos)
+{
+    root.element = root_element;
+    root.left = std::make_unique<parser::treeNode>(parse_math::build_tree({token_input.begin(), token_input.begin() + pos}));
+    root.right = std::make_unique<parser::treeNode>(parse_math::build_tree({token_input.begin() + pos + 1, token_input.end()}));
+}
+
+struct Last_op
+{
+    std::string_view* element;
+    size_t pos;
+};
+
 namespace parse_math 
 {
     parser::treeNode build_tree(std::vector<token::Token> token_input)
@@ -63,39 +76,32 @@ namespace parse_math
         }
         
         int scope = 0;
+        Last_op last_operator{};
 
         for (size_t i = 0; i < token_input.size(); i++)
         {
-            token::Token current = token_input.at(i);
+            token::Token& current = token_input.at(i);
 
             if (current.category == token::L_BRACKET) scope++;
             
             if (current.category == token::R_BRACKET) scope--;
 
+            if (scope == 0 && current.category == token::OPERATOR)
+            {
+                last_operator = {&current.inner, i};
+            }
+            
             if (scope == 0 && (current.inner == "+" || current.inner == "-"))
             {
-                root.element = current.inner;
-                root.left = std::make_unique<parser::treeNode>(parse_math::build_tree({token_input.begin(), token_input.begin() + i}));
-                root.right = std::make_unique<parser::treeNode>(parse_math::build_tree({token_input.begin() + i + 1, token_input.end()}));
+                build_node(root, current.inner, token_input, i);
                 return root;
             }
         }
 
-        for (size_t i = 0; i < token_input.size(); i++)
+        if (last_operator.element != nullptr)
         {
-            token::Token current = token_input.at(i);
-
-            if (current.category == token::L_BRACKET) scope++;
-            
-            if (current.category == token::R_BRACKET) scope--;
-            
-            if (scope == 0 && (current.inner == "*" || current.inner == "/" || current.inner == "%"))
-            {
-                root.element = current.inner;
-                root.left = std::make_unique<parser::treeNode>(parse_math::build_tree({token_input.begin(), token_input.begin() + i}));
-                root.right = std::make_unique<parser::treeNode>(parse_math::build_tree({token_input.begin() + i + 1, token_input.end()}));
-                return root;
-            }
+            build_node(root, *last_operator.element, token_input, last_operator.pos);
+            return root;
         }
         root.element = token_input.back().inner;
         return root;
