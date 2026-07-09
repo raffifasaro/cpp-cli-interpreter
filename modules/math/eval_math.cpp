@@ -3,7 +3,7 @@
 
 namespace eval_math
 {
-    std::string evaluate(parser::treeNode& root_node)
+    std::string evaluate(parser::TreeNode& root_node)
     {
         if (root_node.element == "+")
         {

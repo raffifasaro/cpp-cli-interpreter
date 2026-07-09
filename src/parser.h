@@ -6,18 +6,18 @@
 
 namespace parser
 {
-    struct treeNode 
+    struct TreeNode 
     {
         std::string element;
 
-        std::unique_ptr<treeNode> left;
-        std::unique_ptr<treeNode> right;
+        std::unique_ptr<TreeNode> left;
+        std::unique_ptr<TreeNode> right;
     };
 
-    std::vector<parser::treeNode> parse(std::vector<token::Token> token_input);
+    std::vector<parser::TreeNode> parse(std::vector<token::Token> token_input);
 }
 
 namespace parse_math 
 {
-    parser::treeNode build_tree(std::vector<token::Token> token_input);
+    parser::TreeNode build_tree(std::vector<token::Token> token_input);
 }

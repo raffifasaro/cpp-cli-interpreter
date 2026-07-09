@@ -4,5 +4,5 @@
 
 namespace evaluator 
 {
-    std::string evaluate(parser::treeNode& root_node);
+    std::string evaluate(parser::TreeNode& root_node);
 }

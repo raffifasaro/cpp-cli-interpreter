@@ -4,9 +4,9 @@
 
 namespace parser 
 {
-    std::vector<parser::treeNode> parse(std::vector<token::Token> token_input)
+    std::vector<parser::TreeNode> parse(std::vector<token::Token> token_input)
     {
-        std::vector<parser::treeNode> trees{};
+        std::vector<parser::TreeNode> trees{};
 
         std::vector<token::Token> sub_tokens{};
 
@@ -30,14 +30,14 @@ namespace parser
     }
 }
 
-void build_node(parser::treeNode& root, std::string_view root_element, std::vector<token::Token>& token_input, int pos)
+void build_node(parser::TreeNode& root, std::string_view root_element, std::vector<token::Token>& token_input, int pos)
 {
     root.element = root_element;
-    root.left = std::make_unique<parser::treeNode>(parse_math::build_tree({token_input.begin(), token_input.begin() + pos}));
-    root.right = std::make_unique<parser::treeNode>(parse_math::build_tree({token_input.begin() + pos + 1, token_input.end()}));
+    root.left = std::make_unique<parser::TreeNode>(parse_math::build_tree({token_input.begin(), token_input.begin() + pos}));
+    root.right = std::make_unique<parser::TreeNode>(parse_math::build_tree({token_input.begin() + pos + 1, token_input.end()}));
 }
 
-struct Last_op
+struct LastOp
 {
     std::string_view* element;
     size_t pos;
@@ -45,9 +45,9 @@ struct Last_op
 
 namespace parse_math 
 {
-    parser::treeNode build_tree(std::vector<token::Token> token_input)
+    parser::TreeNode build_tree(std::vector<token::Token> token_input)
     {
-        parser::treeNode root;
+        parser::TreeNode root;
 
         if (token_input.front().category == token::L_BRACKET && token_input.back().category == token::R_BRACKET)
         {
@@ -76,7 +76,7 @@ namespace parse_math
         }
         
         int scope = 0;
-        Last_op last_operator{};
+        LastOp last_operator{};
 
         for (size_t i = 0; i < token_input.size(); i++)
         {
