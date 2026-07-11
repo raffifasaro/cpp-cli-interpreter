@@ -8,7 +8,7 @@ namespace parser
 {
     struct TreeNode 
     {
-        std::string element;
+        token::Token element;
 
         std::unique_ptr<TreeNode> left;
         std::unique_ptr<TreeNode> right;
