@@ -5,7 +5,7 @@
 
 #include <iostream>
 
-std::unordered_map<std::string*, std::unique_ptr<variable::Variable>> variables{};
+std::unordered_map<std::string, std::unique_ptr<variable::Variable>> variables{};
 
 void run_interpreter() 
 {
@@ -24,7 +24,6 @@ void run_interpreter()
         }
 
         std::cout << interpret(input) << "\n";
-
     }
 }
 
