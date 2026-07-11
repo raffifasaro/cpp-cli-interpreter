@@ -1,31 +1,25 @@
 #include "eval_math.h"
 
+#include <iostream>
+
 
 namespace eval_math
 {
-    std::string evaluate(parser::TreeNode& root_node, std::unordered_map<std::string, std::unique_ptr<variable::Variable>>& variables)
+    double evaluate(parser::TreeNode& root_node, std::unordered_map<std::string, std::unique_ptr<variable::Variable>>& variables)
     {
-        if (root_node.element.inner == "+")
+        switch (root_node.element.inner[0])
         {
-            return std::to_string(std::stod(evaluate(*root_node.left, variables)) + std::stod(evaluate(*root_node.right, variables)));
-        }
-        else if (root_node.element.inner == "-")
-        {
-            return std::to_string(std::stod(evaluate(*root_node.left, variables)) - std::stod(evaluate(*root_node.right, variables)));
-        }
-        else if (root_node.element.inner == "*")
-        {
-            return std::to_string(std::stod(evaluate(*root_node.left, variables)) * std::stod(evaluate(*root_node.right, variables)));
-        }
-        else if (root_node.element.inner == "/")
-        {
-            return std::to_string(std::stod(evaluate(*root_node.left, variables)) / std::stod(evaluate(*root_node.right, variables)));
-        }
-        else if (root_node.element.inner == "%")
-        {
-            return std::to_string(std::stoi(evaluate(*root_node.left, variables)) % std::stoi(evaluate(*root_node.right, variables)));
-        }
-        else if (root_node.element.inner == "=")
+        case '+':
+            return evaluate(*root_node.left, variables) + evaluate(*root_node.right, variables);
+        case '-':
+            return evaluate(*root_node.left, variables) - evaluate(*root_node.right, variables);
+        case '*':
+            return evaluate(*root_node.left, variables) * evaluate(*root_node.right, variables);
+        case '/':
+            return evaluate(*root_node.left, variables) / evaluate(*root_node.right, variables);
+        case '%':
+            return int(evaluate(*root_node.left, variables)) % int(evaluate(*root_node.right, variables));
+        case '=':
         {
             if (root_node.left->element.category == token::IDENTIFIER && 
                 (root_node.right->element.category == token::NUMBER || root_node.right->element.category == token::IDENTIFIER))
@@ -35,10 +29,11 @@ namespace eval_math
                 var->value = root_node.right->element;
 
                 variables.emplace(var->name, std::move(var));
-                return "";
+                return 0;
             }
         }
-
-        return std::string(root_node.element.inner);
+        default:
+            return std::stod(std::string(root_node.element.inner));
+        }
     }
 }
