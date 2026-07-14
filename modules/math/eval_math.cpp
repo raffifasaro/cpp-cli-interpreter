@@ -28,12 +28,20 @@ namespace eval_math
         {
             if (root_node.left->element.category == token::IDENTIFIER && 
                 (root_node.right->element.category == token::NUMBER || root_node.right->element.category == token::IDENTIFIER))
-            {
+            {      
                 std::unique_ptr<variable::Variable> var = std::make_unique<variable::Variable>();
                 var->name = root_node.left->element.inner;
                 var->value = root_node.right->element;
 
-                variables.emplace(var->name, std::move(var));
+                if (!(variables.find(var->name) == variables.end()))
+                {
+                    variables[var->name] = std::move(var);
+                }
+                else
+                {
+                    variables.emplace(var->name, std::move(var));
+                }
+                
                 return 0;
             }
         }
