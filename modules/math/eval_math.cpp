@@ -4,6 +4,14 @@ namespace eval_math
 {
     double evaluate(parser::TreeNode& root_node, std::unordered_map<std::string, std::unique_ptr<variable::Variable>>& variables)
     {
+        if (root_node.element.category == token::IDENTIFIER)
+        {
+            if (!(variables.find(std::string(root_node.element.inner)) == variables.end()))
+            {
+                return std::stod(std::string(variables[std::string(root_node.element.inner)].get()->value.inner));
+            }
+        }
+        
         switch (root_node.element.inner[0])
         {
         case '+':
