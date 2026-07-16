@@ -7,6 +7,7 @@ namespace variable
     struct Variable
     {
         std::string name;
-        token::Token value;
+        std::string value;
+        token::Category category;
     };
 }

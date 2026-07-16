@@ -8,7 +8,7 @@ namespace eval_math
         {
             if (!(variables.find(std::string(root_node.element.inner)) == variables.end()))
             {
-                return std::stod(std::string(variables[std::string(root_node.element.inner)].get()->value.inner));
+                return std::stod(std::string(variables[std::string(root_node.element.inner)]->value));
             }
         }
         
@@ -31,7 +31,8 @@ namespace eval_math
             {      
                 std::unique_ptr<variable::Variable> var = std::make_unique<variable::Variable>();
                 var->name = root_node.left->element.inner;
-                var->value = root_node.right->element;
+                var->value = std::string(root_node.right->element.inner);
+                var->category = root_node.right->element.category;
 
                 if (!(variables.find(var->name) == variables.end()))
                 {
