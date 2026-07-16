@@ -5,6 +5,8 @@
 
 #include <iostream>
 
+std::unordered_map<std::string, std::unique_ptr<variable::Variable>> variables{};
+
 void run_interpreter() 
 {
     std::cout << "Interpreter running\n";
@@ -22,7 +24,6 @@ void run_interpreter()
         }
 
         std::cout << interpret(input) << "\n";
-
     }
 }
 
@@ -35,7 +36,7 @@ std::string interpret(std::string argument)
 
     for (size_t i = 0; i < ast_roots.size(); i++)
     {
-        evaluated.append(evaluator::evaluate(ast_roots.at(i)));
+        evaluated.append(evaluator::evaluate(ast_roots.at(i), variables));
         if (i < ast_roots.size() - 1)
         {
             evaluated.append("\n");

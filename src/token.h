@@ -13,8 +13,7 @@ namespace token
         NUMBER,
         IDENTIFIER,
         SEMICOLON
-        // Support later
-        // TYPE
+        // Support TODO:
         // LITERALS
     };
 

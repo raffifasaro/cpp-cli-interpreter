@@ -1,30 +1,53 @@
 #include "eval_math.h"
 
-
 namespace eval_math
 {
-    std::string evaluate(parser::TreeNode& root_node)
+    double evaluate(parser::TreeNode& root_node, std::unordered_map<std::string, std::unique_ptr<variable::Variable>>& variables)
     {
-        if (root_node.element == "+")
+        if (root_node.element.category == token::IDENTIFIER)
         {
-            return std::to_string(std::stod(evaluate(*root_node.left)) + std::stod(evaluate(*root_node.right)));
+            if (!(variables.find(std::string(root_node.element.inner)) == variables.end()))
+            {
+                return std::stod(std::string(variables[std::string(root_node.element.inner)]->value));
+            }
         }
-        else if (root_node.element == "-")
+        
+        switch (root_node.element.inner[0])
         {
-            return std::to_string(std::stod(evaluate(*root_node.left)) - std::stod(evaluate(*root_node.right)));
-        }
-        else if (root_node.element == "*")
+        case '+':
+            return evaluate(*root_node.left, variables) + evaluate(*root_node.right, variables);
+        case '-':
+            return evaluate(*root_node.left, variables) - evaluate(*root_node.right, variables);
+        case '*':
+            return evaluate(*root_node.left, variables) * evaluate(*root_node.right, variables);
+        case '/':
+            return evaluate(*root_node.left, variables) / evaluate(*root_node.right, variables);
+        case '%':
+            return int(evaluate(*root_node.left, variables)) % int(evaluate(*root_node.right, variables));
+        case '=':
         {
-            return std::to_string(std::stod(evaluate(*root_node.left)) * std::stod(evaluate(*root_node.right)));
+            if (root_node.left->element.category == token::IDENTIFIER && 
+                (root_node.right->element.category == token::NUMBER || root_node.right->element.category == token::IDENTIFIER))
+            {      
+                std::unique_ptr<variable::Variable> var = std::make_unique<variable::Variable>();
+                var->name = root_node.left->element.inner;
+                var->value = std::string(root_node.right->element.inner);
+                var->category = root_node.right->element.category;
+
+                if (!(variables.find(var->name) == variables.end()))
+                {
+                    variables[var->name] = std::move(var);
+                }
+                else
+                {
+                    variables.emplace(var->name, std::move(var));
+                }
+                
+                return 0;
+            }
         }
-        else if (root_node.element == "/")
-        {
-            return std::to_string(std::stod(evaluate(*root_node.left)) / std::stod(evaluate(*root_node.right)));
+        default:
+            return std::stod(std::string(root_node.element.inner));
         }
-        else if (root_node.element == "%")
-        {
-            return std::to_string(std::stoi(evaluate(*root_node.left)) % std::stoi(evaluate(*root_node.right)));
-        }
-        return root_node.element;
     }
 }

@@ -30,7 +30,7 @@ namespace parser
     }
 }
 
-void build_node(parser::TreeNode& root, std::string_view root_element, std::vector<token::Token>& token_input, int pos)
+void build_node(parser::TreeNode& root, token::Token root_element, std::vector<token::Token>& token_input, int pos)
 {
     root.element = root_element;
     root.left = std::make_unique<parser::TreeNode>(parse_math::build_tree({token_input.begin(), token_input.begin() + pos}));
@@ -39,7 +39,7 @@ void build_node(parser::TreeNode& root, std::string_view root_element, std::vect
 
 struct LastOp
 {
-    std::string_view* element;
+    token::Token* element;
     size_t pos;
 };
 
@@ -88,12 +88,12 @@ namespace parse_math
 
             if (scope == 0 && current.category == token::OPERATOR)
             {
-                last_operator = {&current.inner, i};
+                last_operator = {&current, i};
             }
             
             if (scope == 0 && (current.inner == "+" || current.inner == "-"))
             {
-                build_node(root, current.inner, token_input, i);
+                build_node(root, current, token_input, i);
                 return root;
             }
         }
@@ -103,7 +103,7 @@ namespace parse_math
             build_node(root, *last_operator.element, token_input, last_operator.pos);
             return root;
         }
-        root.element = token_input.back().inner;
+        root.element = token_input.back();
         return root;
     }
 }
