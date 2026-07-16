@@ -16,3 +16,5 @@ First goal is to be able to eval all kinds of math expressions with support for 
 - Support for identifiers/variables, which are saved for the current CLI session and can be used in calcs or overwritten after being declared
 - Support for ";" -> leads to seperated expressions being printed in additional lines
 
+Example of what is currently possible :)
+<img width="783" height="252" alt="image" src="https://github.com/user-attachments/assets/109aef6e-0af7-44a8-9d98-30494192aa08" />
