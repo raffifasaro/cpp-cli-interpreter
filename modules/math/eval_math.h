@@ -1,7 +1,7 @@
 #pragma once
 
-#include "src/parser.h"
-#include "src/variable.h"
+#include "parser/parser.h"
+#include "common/variable.h"
 
 #include <unordered_map>
 

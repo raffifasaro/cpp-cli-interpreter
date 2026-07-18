@@ -1,7 +1,7 @@
 #include "runner.h"
-#include "lexer.h"
-#include "parser.h"
-#include "evaluator.h"
+#include "lexer/lexer.h"
+#include "parser/parser.h"
+#include "evaluator/evaluator.h"
 
 #include <iostream>
 

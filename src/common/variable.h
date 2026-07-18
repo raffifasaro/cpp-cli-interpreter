@@ -1,4 +1,6 @@
-#include "token.h"
+#pragma once
+
+#include "common/token.h"
 
 #include <string>
 
