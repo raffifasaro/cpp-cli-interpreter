@@ -1,8 +1,9 @@
 #include "eval_math.h"
+#include "common/error/error.h"
 
 namespace eval_math
 {
-    double evaluate(parser::TreeNode& root_node, std::unordered_map<std::string, std::unique_ptr<variable::Variable>>& variables)
+    std::optional<double> evaluate(parser::TreeNode& root_node, std::unordered_map<std::string, std::unique_ptr<variable::Variable>>& variables)
     {
         if (root_node.element.category == token::IDENTIFIER)
         {
@@ -10,20 +11,25 @@ namespace eval_math
             {
                 return std::stod(std::string(variables[std::string(root_node.element.inner)]->value));
             }
+            else
+            {
+                error::print_variable_error(std::string(root_node.element.inner));
+                return std::nullopt;
+            }
         }
         
         switch (root_node.element.inner[0])
         {
         case '+':
-            return evaluate(*root_node.left, variables) + evaluate(*root_node.right, variables);
+            return *evaluate(*root_node.left, variables) + *evaluate(*root_node.right, variables);
         case '-':
-            return evaluate(*root_node.left, variables) - evaluate(*root_node.right, variables);
+            return *evaluate(*root_node.left, variables) - *evaluate(*root_node.right, variables);
         case '*':
-            return evaluate(*root_node.left, variables) * evaluate(*root_node.right, variables);
+            return *evaluate(*root_node.left, variables) * *evaluate(*root_node.right, variables);
         case '/':
-            return evaluate(*root_node.left, variables) / evaluate(*root_node.right, variables);
+            return *evaluate(*root_node.left, variables) / *evaluate(*root_node.right, variables);
         case '%':
-            return int(evaluate(*root_node.left, variables)) % int(evaluate(*root_node.right, variables));
+            return int(*evaluate(*root_node.left, variables)) % int(*evaluate(*root_node.right, variables));
         case '=':
         {
             if (root_node.left->element.category == token::IDENTIFIER && 
@@ -43,7 +49,7 @@ namespace eval_math
                     variables.emplace(var->name, std::move(var));
                 }
                 
-                return 0;
+                return std::nullopt;
             }
         }
         default:

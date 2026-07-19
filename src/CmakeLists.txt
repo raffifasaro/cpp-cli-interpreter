@@ -1,4 +1,4 @@
-add_executable(interpreter main.cpp runner.cpp lexer/lexer.cpp parser/parser.cpp evaluator/evaluator.cpp)
+add_executable(interpreter main.cpp runner.cpp lexer/lexer.cpp parser/parser.cpp evaluator/evaluator.cpp common/error/error.cpp)
 
 target_include_directories(interpreter PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 

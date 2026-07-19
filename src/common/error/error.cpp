@@ -1,20 +1,29 @@
 #include "error.h"
 #include <format>
 
-void print_input_error(std::string err_line, int pos, int length)
+namespace error
 {
-    std::string err_msg(err_line.length(), ' ');
-
-    for (size_t i = pos; i < pos + length; i++)
+    void print_input_error(std::string err_line, int pos, int length)
     {
-        err_msg[i] = '^';
-    }
-    err_msg.append("\n");
-    err_msg.append(std::format("Input error at index {}", pos));
-    
-    err_line.append("\n");
-    std::cout << err_line;
+        std::string err_msg(err_line.length(), ' ');
 
-    err_msg.append("\n");
-    std::cout << err_msg;
+        for (size_t i = pos; i < pos + length; i++)
+        {
+            err_msg[i] = '^';
+        }
+        err_msg.append("\n");
+        err_msg.append(std::format("Input error at index {}", pos));
+        
+        std::cout << err_line << "\n";
+
+        std::cout << err_msg << "\n";
+    }
+
+    void print_variable_error(std::string v_name)
+    {
+        std::string err_msg{};
+        err_msg.append(std::format("Variable {} not found", v_name));
+
+        std::cout << err_msg << "\n";
+    }
 }
