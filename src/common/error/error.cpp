@@ -10,7 +10,7 @@ void print_input_error(std::string err_line, int pos, int length)
         err_msg[i] = '^';
     }
     err_msg.append("\n");
-    err_msg.append("Input error at index " + pos);
+    err_msg.append(std::format("Input error at index {}", pos));
     
     err_line.append("\n");
     std::cout << err_line;
