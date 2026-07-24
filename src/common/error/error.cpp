@@ -3,18 +3,18 @@
 
 namespace error
 {
-    void print_input_error(std::string err_line, int pos, int length)
+    void print_input_error(int pos, int length)
     {
-        std::string err_msg(err_line.length(), ' ');
+        int pos_aligned = pos + 4;
 
-        for (size_t i = pos; i < pos + length; i++)
+        std::string err_msg(pos_aligned + length, ' ');
+
+        for (size_t i = pos_aligned; i < pos_aligned + length; i++)
         {
             err_msg[i] = '^';
         }
         err_msg.append("\n");
-        err_msg.append(std::format("Input error at index {}", pos));
-        
-        std::cout << err_line << "\n";
+        err_msg.append(std::format("Input error at index {}", pos_aligned));
 
         std::cout << err_msg << "\n";
     }

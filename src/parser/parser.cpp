@@ -1,4 +1,5 @@
 #include "parser.h"
+#include "common/error/error.h"
 
 #include <iostream>
 
@@ -85,6 +86,13 @@ namespace parse_math
             if (current.category == token::L_BRACKET) scope++;
             
             if (current.category == token::R_BRACKET) scope--;
+
+            if (scope < 0)
+            {
+                error::print_input_error(i, 1);
+                return root;
+            }
+            
 
             if (scope == 0 && current.category == token::OPERATOR)
             {
