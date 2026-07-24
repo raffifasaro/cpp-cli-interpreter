@@ -14,7 +14,7 @@ namespace error
             err_msg[i] = '^';
         }
         err_msg.append("\n");
-        err_msg.append(std::format("Input error at index {}", pos_aligned));
+        err_msg.append(std::format("Input error at index {}", pos));
 
         std::cout << err_msg << "\n";
     }
