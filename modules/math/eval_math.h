@@ -4,7 +4,6 @@
 #include "common/variable.h"
 
 #include <unordered_map>
-#include <optional>
 
 namespace eval_math
 {

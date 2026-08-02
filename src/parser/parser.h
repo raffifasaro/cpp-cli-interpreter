@@ -1,6 +1,7 @@
 #pragma once
 
 #include "lexer/lexer.h"
+#include <optional>
 
 #include <iostream>
 
@@ -19,5 +20,5 @@ namespace parser
 
 namespace parse_math 
 {
-    parser::TreeNode build_tree(std::vector<token::Token> token_input);
+    std::optional<parser::TreeNode> build_tree(std::vector<token::Token> token_input);
 }

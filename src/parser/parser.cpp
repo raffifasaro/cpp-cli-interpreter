@@ -18,12 +18,21 @@ namespace parser
             if (token_input.at(i).category == token::SEMICOLON)
             {
                 sub_tokens.pop_back();
-                trees.push_back(parse_math::build_tree(sub_tokens));
+                std::optional<parser::TreeNode> tree = parse_math::build_tree(sub_tokens);
+                if (tree)
+                {
+                    trees.push_back(std::move(*tree));
+                }
+                
                 sub_tokens.clear();
             }
             else if (i == token_input.size() - 1)
             {
-                trees.push_back(parse_math::build_tree(sub_tokens));
+                std::optional<parser::TreeNode> tree = parse_math::build_tree(sub_tokens);
+                if (tree)
+                {
+                    trees.push_back(std::move(*tree));
+                }
                 sub_tokens.clear();
             }
         }
@@ -34,8 +43,19 @@ namespace parser
 void build_node(parser::TreeNode& root, token::Token root_element, std::vector<token::Token>& token_input, int pos)
 {
     root.element = root_element;
-    root.left = std::make_unique<parser::TreeNode>(parse_math::build_tree({token_input.begin(), token_input.begin() + pos}));
-    root.right = std::make_unique<parser::TreeNode>(parse_math::build_tree({token_input.begin() + pos + 1, token_input.end()}));
+
+    std::optional<parser::TreeNode> left_root = parse_math::build_tree({token_input.begin() + pos + 1, token_input.end()});
+    std::optional<parser::TreeNode> right_root = parse_math::build_tree({token_input.begin(), token_input.begin() + pos});
+
+    if (left_root)
+    {
+        root.left = std::make_unique<parser::TreeNode>(std::move(*left_root));
+    }
+    
+    if (right_root)
+    {
+        root.right = std::make_unique<parser::TreeNode>(std::move(*right_root));
+    }
 }
 
 struct LastOp
@@ -46,7 +66,7 @@ struct LastOp
 
 namespace parse_math 
 {
-    parser::TreeNode build_tree(std::vector<token::Token> token_input)
+    std::optional<parser::TreeNode> build_tree(std::vector<token::Token> token_input)
     {
         parser::TreeNode root;
 
@@ -90,7 +110,7 @@ namespace parse_math
             if (scope < 0)
             {
                 error::print_input_error(i, 1);
-                return root;
+                return std::nullopt;
             }
             
 
